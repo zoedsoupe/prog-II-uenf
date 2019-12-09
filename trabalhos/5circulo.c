@@ -1,64 +1,55 @@
-/* UENF-CCT-LCMAT-Ci�ncia da Computa��o
-Data de in�cio: 14/10/19
-Monitoria de Programa��o II - Exerc�cio
-========================================*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
-typedef struct ponto{
-    float x;
+typedef struct point{
+    float x; 
     float y;
-} Ponto;
+} Point;
 
-typedef struct circulo{
-    Ponto centro; // exemplo de acesso as coordenadas do centro: c.centro.x e c.centro.y
-    float r; // raio
-} Circulo;
+typedef struct circles{
+    Point centro; 
+    float r; 
+} Circle;
 
-typedef struct conj_circulo{
-    Circulo *vet; // ponteiro a ser alocado como vetor de n posi��es
+typedef struct conj_circle{
+    Circle *vet; 
     int n;
 } cCirc;
 
-typedef struct conj_ponto{
-    Ponto *vet; // ponteiro a ser alocado como vetor de m posi��es
+typedef struct conj_point{
+    Point *vet; 
     int m;
-} cPonto;
+} cPoint;
 
 void geraVetorCirc(cCirc *c)
 {
     int i;
     
-    // Aloca o vetor de c�rculos dinamicamente
-    c->vet = (Circulo *) malloc(c->n * sizeof(Circulo)); // aloca��o din�mica
+    c->vet = (Circle *) malloc(c->n * sizeof(Circle)); 
     
-    // Preenche o vetor de c�rculos com valores aleat�rios
     for(i = 0; i < c->n; i++){
-        c->vet[i].centro.x = 100 - rand() % 201; // rand() % 201 gera um n�mero aleat�rio entre 0 e 200,
-        c->vet[i].centro.y = 100 - rand() % 201; // portanto o intervalo das coordenadas � de [-100,100]
+        c->vet[i].centro.x = 100 - rand() % 201; 
+        c->vet[i].centro.y = 100 - rand() % 201; 
         c->vet[i].r = 1 + rand() % 10;
     }
 }
 
 
-void geraVetorPonto(cPonto *p)
+void geraVetorPoint(cPoint *p)
 {
     int i;
+       
+    p->vet = (Point *) malloc(p->m * sizeof(Point));
     
-    // Aloca o vetor de pontos dinamicamente
-    p->vet = (Ponto *) malloc(p->m * sizeof(Ponto));
-    
-    // Preenche o vetor de pontos com valores aleat�rios
-    for(i = 0; i < p->m; i++){
+    for(i = 0; i < p->m; i++) {
         p->vet[i].x = 100 - rand() % 201; 
         p->vet[i].y = 100 - rand() % 201;
     }
 }
 
-void exibeVetorCirc(cCirc c)
-{
+void printVetCirc(cCirc c) {
     int i;
 
     for(i = 0; i < c.n; i++)
@@ -66,8 +57,7 @@ void exibeVetorCirc(cCirc c)
     
 }
 
-void exibeVetorPonto(cPonto p)
-{
+void printVetPoint(cPoint p) {
     int i;
 
     for(i = 0; i < p.m; i++)
@@ -75,8 +65,7 @@ void exibeVetorPonto(cPonto p)
 
 }
 
-float calculaDistancia (Ponto p1, Ponto p2)
-{
+float calculaDistancia (Point p1, Point p2) {
     float dx, dy, d;
     
     dx = p1.x-p2.x;
@@ -84,21 +73,16 @@ float calculaDistancia (Ponto p1, Ponto p2)
     d = sqrt (dx*dx+dy*dy);
     return d;
 }
-void intersecaoPtoCirc(cCirc c, cPonto p)
-{
+void intersecPtoCirc(cCirc c, cPoint p) {
     int i = 0, j;
     float d;
     
-    while ( i < c.n)
-    {
-        
-        for(j=0; j < p.m; j++)
-        {
+    while ( i < c.n) {
+        for(j=0; j < p.m; j++) {
             
             d = calculaDistancia (c.vet[i].centro, p.vet[j]);
             
-            if (d <= c.vet[i].r)
-            {
+            if (d <= c.vet[i].r) {
                 printf("Circulo %d intercepta com: \n", i+1);
                 printf("%d.\t (%.2f,%.2f)\n", j+1, p.vet[j].x, p.vet[j].y);
             }
@@ -109,29 +93,28 @@ void intersecaoPtoCirc(cCirc c, cPonto p)
 }
 
 
-int main()
-{
-    srand(time(NULL)); // inicializador de n�meros aleat�rios
-    
-    cCirc circulos; // conjunto de c�rculos
-    cPonto pontos; // conjunto de pontos
+int main() {
+    srand(time(NULL)); 
+
+    cCirc circles; 
+    cPoint points; 
     
     printf("Digite o numero de circulos que serao gerados\nn = ");
-    scanf("%d", &circulos.n);
+    scanf("%d", &circles.n);
     
     printf("Digite o numero de pontos que serao gerados\nm = ");
-    scanf("%d", &pontos.m);
+    scanf("%d", &points.m);
     
-    geraVetorCirc(&circulos); // passagem por refer�ncia
-    geraVetorPonto(&pontos); // aqui tamb�m
+    geraVetorCirc(&circles); 
+    geraVetorPoint(&points); 
     
-    printf("C�rculos: \n");
-    exibeVetorCirc(circulos);
+    printf("Circulos: \n");
+    printVetCirc(circles);
     
-    printf("\n\nPontos: \n");
-    exibeVetorPonto(pontos);
+    printf("\n\nPoints: \n");
+    printVetPoint(points);
 
-    intersecaoPtoCirc(circulos, pontos);
+    intersecPtoCirc(circles, points);
 
     
     return 0;

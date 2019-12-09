@@ -1,70 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
- 
-#define MAX 10
- 
-// Protótipo da função de ordenação
-// Ordination function prototype
-void quick_sort(int *a, int left, int right);
- 
-// Função main
-// Main Function
-int main(int argc, char** argv)
-{
- int i, vet[MAX];
- 
- // Lê MAX ou 10 valores
- // Read MAX or 10 values
- for(i = 0; i < MAX; i++)
- {
-  printf("Digite um valor: ");
-  scanf("%d", &vet[i]);
- }
- 
- // Ordena os valores
- // Order values
- quick_sort(vet, 0, MAX - 1);
- 
- // Imprime os valores ordenados
- // Print values in order ascendant
- printf("nnValores ordenadosn");
- for(i = 0; i < MAX; i++)
- {
-  printf("%dn", vet[i]);
- }
- system("pause");
- return 0;
+#include <time.h>
+
+
+void define_tam_vet (int *tam_vet);
+void gera_vet (int *vet, int tam_vet);
+int right_pos (int *v, int first, int last );
+void print_vet(int *vet,int tam_vet);
+void print_vet(int *vet,int tam_vet);
+void quicksort (int *vet, int first, int last);
+
+int main() {
+    int first = 0, last, tam_vet, vet[100];
+
+    define_tam_vet(&tam_vet);
+    last = tam_vet - 1;
+    gera_vet(vet, tam_vet);
+    print_vet(vet, tam_vet);
+    quicksort(vet, first, last);
+    print_vet(vet, tam_vet);
+
+    return 0;
 }
- 
-// Função de Ordenação por Seleção
-// Quick sort function
-void quick_sort(int *a, int left, int right) {
-    int i, j, x, y;
-     
-    i = left;
-    j = right;
-    x = a[(left + right) / 2];
-     
-    while(i <= j) {
-        while(a[i] < x && i < right) {
-            i++;
-        }
-        while(a[j] > x && j > left) {
-            j--;
-        }
-        if(i <= j) {
-            y = a[i];
-            a[i] = a[j];
-            a[j] = y;
-            i++;
-            j--;
-        }
-    }
-     
-    if(j > left) {
-        quick_sort(a, left, j);
-    }
-    if(i < right) {
-        quick_sort(a, i, right);
+
+void define_tam_vet (int *tam_vet) {
+    printf("Qual será o tamanho do vetor?\n");
+    scanf("%d", tam_vet);
+}
+
+void gera_vet (int *vet, int tam_vet) {
+    srand(time(NULL));
+    for (int i = 0; i <= tam_vet; i++) {
+        vet[i] = (rand() % 100);
     }
 }
+
+int right_pos (int *vet, int first, int last) {
+    int tmp;
+
+    while (last > first) {
+        if (vet[first] < vet[first+1]) {
+            while(vet[first] < vet[last]) {
+                last--;
+            }
+            if (first < last) {
+                tmp = vet[first+1];
+                vet[first+1] = vet[last];
+                vet[last] = tmp;
+                last--;
+            }
+        }
+        else {
+           tmp = vet[first];
+           vet[first] = vet[first+1];
+           vet[first+1]= tmp;
+           first++;
+        }
+    }
+    return first;
+}
+
+void print_vet(int *vet,int tam_vet) {
+   for(int i = 0; i < tam_vet; i++){
+    printf("%d ", vet[i]);
+   }
+  printf("\n");
+}
+
+void quicksort (int *vet, int first, int last) {
+    int j;
+
+    if(last > first) {
+        j = right_pos(vet, first, last);
+        quicksort(vet, first, j-1);
+        quicksort(vet, j+1, last);
+    }
+} 

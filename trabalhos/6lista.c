@@ -1,114 +1,106 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct no {
-	char letra; 
-	int freq; 
-	
-	struct no *prox; // ponteiro ao proximo no da lista	
-} No;
+typedef struct stElem {  
+	int  info; 
+	int freq;
+	struct stElem* next; 
+} Elem; 
 
-typedef struct lista
-{
-	int n; // numero de elementos na lista
-	
-	No *first; // ponteiro ao primeiro no da lista
-} Lista;
+typedef struct stLst {  
+	int  n;
+	Elem *first,*last;
+} Lst; 
 
-void criaLista(Lista *l)
-{
-	l->n = 0; 
-	l->first = NULL;
+Elem *searchPos(Elem *no, int w, int *sw) {
+	Elem *tmp = NULL;
+	*sw = 0;
+	while (no) {
+		if(no->info > w) {
+			break;
+		}
+		else if (no->info == w) {
+		    *sw = 1;
+			tmp = no;
+	        break;
+		}
+		else {
+			tmp = no;
+		    no = no->next;
+		}
+	}
+	return tmp;
+}
+
+void addNo(Lst *myList, int w) {
+	Elem *newNo;
+	Elem *tmpNo;
+	Elem *noAnt;
+	
+	int sw; 
+	
+	noAnt = searchPos(myList->first, w, &sw);
+
+	if(sw)
+       noAnt->freq += 1;
+    else {
+       newNo = (Elem*) malloc(sizeof(Elem));
+       newNo->info = w;
+       newNo->next = NULL;
+       newNo->freq = 1;
+        if(!noAnt) {
+	      	if(myList->first) {
+	      	    newNo->freq +=1;
+		       	newNo->next = myList->first;
+		       	myList->first = newNo;
+	       	} else
+		      	myList->first = myList->last = newNo;
+        } else {
+	       newNo->next = noAnt->next;
+           noAnt->next = newNo;
+        }
+    	myList->n += 1;
+	}
+}
+
+void printList(Lst *myList) {
+	Elem *newNo;
+	newNo = myList->first;
+	while(newNo) {
+		printf("\n %d: (%d)", newNo->info, newNo->freq);
+		newNo = newNo->next;
+	}
+	printf("\n");
 }
 
 
-void addNo(Lista *l, char c, int f)
-{
-	No *noIns; // no a ser inserido na lista
-	No *noAux; // no auxiliar (usado para percorrer a lista) 
-	
-	
-	noIns = (No *) malloc(sizeof(No));
-	
-	noIns->letra = c;
-	noIns->freq = f;
-	
-	if(l->n == 0) // Caso 1: Lista vazia
-	{
-		l->first = noIns;
-		l->first->prox = NULL;
-	}
-	else // a lista nao esta vazia => percorrer a posicao correta
-	{
-		noAux = l->first; 
-		
-		if(noIns->letra < noAux->letra) // Caso 2: O no a ser inserido é o novo primeiro elemento
-		{
-		    l->first = noIns;
-			noIns->prox = noAux;		
-		}
-		else
-		{
-			while(noAux != NULL && noAux->prox != NULL) // Loop p/ percorrer a lista
-			{
-				if(noIns->letra > noAux->letra && noIns->letra < noAux->prox->letra) // Caso 3: Insercao entre dois nos
-				{
-					noIns->prox = noAux->prox;	
-					noAux->prox = noIns;
-					break;
-				}
-				else
-					noAux = noAux->prox; // Não encontrou a posicao certa => avança para o proximo no
-			}
-			 
-			if(noAux->prox == NULL) // Caso 4: Insercao no final da lista
-			{
-				noAux->prox = noIns;
-				noIns->prox = NULL;
-			}
-		}
+int main() {
+	int w;
+
+	Elem *newNo;
+
+	Lst myList;
+
+	myList.n = 0;
+	myList.first = NULL;
+	myList.last = NULL;
+
+	printf("\nDigite um valor inteiro: ");
+	scanf("%d", &w); 
+
+	while(w) { 
+		addNo(&myList, w);
 			
+		printf("\nDigite um valor inteiro ou ZERO: ");
+		scanf("%d", &w);
 	}
-		
-	l->n++; // Foi adicionado um elemento => incrementa o contador da lista
-	
-}
 
+    printList(&myList);
 
-void percorreLista(Lista l)
-{
-	int i = 1;
-	No *noAux;
-
-	noAux = l.first;
-	
-	while(noAux != NULL)
-	{
-		printf("%d. %c e %d\n",i, noAux->letra, noAux->freq);
-		noAux = noAux->prox;
-		i++;
+	newNo = myList.first;
+	while(newNo) {
+		myList.first = newNo->next;
+		free(newNo);
+		newNo = myList.first;
 	}
-}
-
-int main(int argc, char *argv[]) 
-{
-    
-	FILE *ARQ;
-	Lista lista; 
-
-
-	criaLista(&lista);
-	addNo(&lista,'F',12);
-	addNo(&lista,'B',14);
-	addNo(&lista,'A',13);
-	addNo(&lista,'D',11);
-	addNo(&lista,'G',11);
-    addNo(&lista,'C',5);
-    addNo(&lista,'Z',11);
-    addNo(&lista,'P',11);
-	addNo(&lista,'\'',11);
-	
-	percorreLista(lista);
-	
-	return 0;
 }

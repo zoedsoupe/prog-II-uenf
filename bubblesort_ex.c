@@ -7,10 +7,10 @@ void bubble_sort (int vet[], int n) {
         for (j = 0; j < k; j++) {
             printf("%d, ", j);
 
-            if (vetor[j] > vetor[j + 1]) {
-                aux          = vetor[j];
-                vetor[j]     = vetor[j + 1];
-                vetor[j + 1] = aux;
+            if (vet[j] > vet[j + 1]) {
+                aux          = vet[j];
+                vet[j]     = vet[j + 1];
+                vet[j + 1] = aux;
             }
         }
     }

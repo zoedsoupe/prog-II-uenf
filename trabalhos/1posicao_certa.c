@@ -11,31 +11,44 @@ void define_tam_vet (int *tam_vet) {
 void informa_pivo (int *pivo) {
     printf("Informe o pivô: \n");
     scanf("%d", pivo);
-}
+} 
 
-void gera_vet (int vet[], int tam) {
-    //srand(time(NULL));
-    for (int i = 0; i <= tam; i++) {
+void gera_vet (int *vet, int tam) {
+    srand(time(NULL));
+    for (int i = 0; i < tam; i++) {
         vet[i] = (rand() % 100);
     }
 }
 
-void print_vet (int vet[], int tam) {
+void print_vet (int *vet, int tam) {
     printf("\n");
-    for (int i = 0; i <= tam; i++) {
+    for (int i = 0; i < tam; i++) {
         printf("%d ", vet[i]);
     }
     printf("\n\n");
 }
 
-void order_pivot (int vet[], int pivo, int tam_vet) {
+void order_pivot (int *vet, int pivo, int tam_vet) {
     int tmp;
-
-    for (int i = 0; i <= tam_vet; i++) {
-        if (vet[i] > pivo) {
-            tmp = vet[i];
-            vet[i] = vet[i+1];
-            vet[i+1] = tmp;
+    int b = tam_vet - 1, a = 0;
+    
+    while (b > a) {
+        if (vet[a] < pivo) {
+            while(vet[a] < vet[b]) {
+                b--;
+            }
+            if (a < b) {
+               tmp = pivo;
+               pivo = vet[b];
+               vet[b] = tmp;
+               b--;
+            }
+        }
+        else {
+            tmp = vet[a];
+            vet[a] = pivo;
+            pivo = tmp;
+            a++;
         }
     }
 }
