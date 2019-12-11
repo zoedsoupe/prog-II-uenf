@@ -67,7 +67,7 @@ void printList(Lst *myList) {
 	Elem *newNo;
 	newNo = myList->first;
 	while(newNo) {
-		printf("\n %d: (%d)", newNo->info, newNo->freq);
+		printf("\n %d: (%dx)", newNo->info, newNo->freq);
 		newNo = newNo->next;
 	}
 	printf("\n");

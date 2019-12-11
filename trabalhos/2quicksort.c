@@ -16,8 +16,10 @@ int main() {
     define_tam_vet(&tam_vet);
     last = tam_vet - 1;
     gera_vet(vet, tam_vet);
+    printf("\nVetor gerado:\n");
     print_vet(vet, tam_vet);
     quicksort(vet, first, last);
+    printf("\nVetor ordenado:\n");
     print_vet(vet, tam_vet);
 
     return 0;
@@ -60,13 +62,6 @@ int right_pos (int *vet, int first, int last) {
     return first;
 }
 
-void print_vet(int *vet,int tam_vet) {
-   for(int i = 0; i < tam_vet; i++){
-    printf("%d ", vet[i]);
-   }
-  printf("\n");
-}
-
 void quicksort (int *vet, int first, int last) {
     int j;
 
@@ -76,3 +71,11 @@ void quicksort (int *vet, int first, int last) {
         quicksort(vet, j+1, last);
     }
 } 
+
+void print_vet(int *vet,int tam_vet) {
+   for(int i = 0; i < tam_vet; i++){
+    printf("%d ", vet[i]);
+   }
+  printf("\n\n");
+}
+

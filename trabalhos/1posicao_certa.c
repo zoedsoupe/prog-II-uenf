@@ -8,14 +8,9 @@ void define_tam_vet (int *tam_vet) {
     scanf("%d", tam_vet);
 }
 
-void informa_pivo (int *pivo) {
-    printf("Informe o pivô: \n");
-    scanf("%d", pivo);
-} 
-
-void gera_vet (int *vet, int tam) {
-    srand(time(NULL));
-    for (int i = 0; i < tam; i++) {
+void gera_vet (int *vet, int tam_vet) {
+    //srand(time(NULL));
+    for (int i = 0; i < tam_vet; i++) {
         vet[i] = (rand() % 100);
     }
 }
@@ -28,27 +23,22 @@ void print_vet (int *vet, int tam) {
     printf("\n\n");
 }
 
-void order_pivot (int *vet, int pivo, int tam_vet) {
-    int tmp;
-    int b = tam_vet - 1, a = 0;
-    
-    while (b > a) {
-        if (vet[a] < pivo) {
-            while(vet[a] < vet[b]) {
-                b--;
-            }
-            if (a < b) {
-               tmp = pivo;
-               pivo = vet[b];
-               vet[b] = tmp;
-               b--;
-            }
+void order_pivo (int *vet, int tam_vet, int pivo) {
+    int pos_certa = vet[(0 + tam_vet) / 2];
+    int tmp = 0, aux = 0;
+
+    for (int i = 0; i < tam_vet; i++) {
+        if (vet[i] == pivo) {
+            tmp = vet[pos_certa];
+            vet[pos_certa] = pivo;
+            vet[i] = vet[i];
         }
-        else {
-            tmp = vet[a];
-            vet[a] = pivo;
-            pivo = tmp;
-            a++;
+        for (int j = 0; j < tam_vet; j++) {
+           if (vet[i] < vet[j]) {
+               aux = vet[i];
+               vet[i] = vet[j];
+               vet[j] = aux;
+           }
         }
     }
 }
@@ -61,8 +51,7 @@ int main() {
     define_tam_vet(&tam_vet);
     gera_vet(vet, tam_vet);
     print_vet(vet, tam_vet);
-    informa_pivo(&pivo);
-    order_pivot(vet, pivo, tam_vet);
+    order_pivo(vet, tam_vet, vet[0]);
     print_vet(vet, tam_vet);
     return 0;
 }

@@ -83,8 +83,8 @@ void intersecPtoCirc(cCirc c, cPoint p) {
             d = calculaDistancia (c.vet[i].centro, p.vet[j]);
             
             if (d <= c.vet[i].r) {
-                printf("Circulo %d intercepta com: \n", i+1);
-                printf("%d.\t (%.2f,%.2f)\n", j+1, p.vet[j].x, p.vet[j].y);
+                printf("\nCirculo %d intercepta com o ponto: \n", i+1);
+                printf("%d. (%.2f,%.2f)\n", j+1, p.vet[j].x, p.vet[j].y);
             }
         }    
       i++;    
@@ -99,24 +99,18 @@ int main() {
     cCirc circles; 
     cPoint points; 
     
-    printf("Digite o numero de circulos que serao gerados\nn = ");
+    printf("Quantos circulos serão gerados?\nn = ");
     scanf("%d", &circles.n);
-    
-    printf("Digite o numero de pontos que serao gerados\nm = ");
+    printf("Quantos pontos serão gerados?\nm = ");
     scanf("%d", &points.m);
-    
     geraVetorCirc(&circles); 
     geraVetorPoint(&points); 
-    
     printf("Circulos: \n");
     printVetCirc(circles);
-    
     printf("\n\nPoints: \n");
     printVetPoint(points);
-
     intersecPtoCirc(circles, points);
 
-    
     return 0;
 }
 
