@@ -11,6 +11,7 @@ typedef struct point{
 typedef struct circles{
     Point centro; 
     float r; 
+    // int *pontos_interior;
 } Circle;
 
 typedef struct conj_circle{

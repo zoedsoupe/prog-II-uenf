@@ -50,7 +50,7 @@ void addNo(Lst *myList, int w) {
        newNo->freq = 1;
         if(!noAnt) {
 	      	if(myList->first) {
-	      	    newNo->freq +=1;
+	      	    //newNo->freq +=1;
 		       	newNo->next = myList->first;
 		       	myList->first = newNo;
 	       	} else

@@ -100,6 +100,8 @@ int main() {
 		fscanf (fArq, "%c", &w);
 	}
 
+	printf("\nExistem %d elementos\n", myList.n);
+
     printList(&myList);
 
 	newNo = myList.first;

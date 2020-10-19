@@ -9,7 +9,7 @@ void define_tam_vet (int *tam_vet) {
 }
 
 void gera_vet (int *vet, int tam_vet) {
-    //srand(time(NULL));
+    srand(time(NULL));
     for (int i = 0; i < tam_vet; i++) {
         vet[i] = (rand() % 100);
     }
@@ -31,7 +31,7 @@ void order_pivo (int *vet, int tam_vet, int pivo) {
         if (vet[i] == pivo) {
             tmp = vet[pos_certa];
             vet[pos_certa] = pivo;
-            vet[i] = vet[i];
+            vet[i] = vet[pos_certa];
         }
         for (int j = 0; j < tam_vet; j++) {
            if (vet[i] < vet[j]) {
